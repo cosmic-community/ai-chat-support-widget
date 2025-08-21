@@ -1,0 +1,130 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  .chat-message {
+    @apply max-w-[80%] rounded-lg px-4 py-2 text-sm break-words;
+  }
+  
+  .chat-message-user {
+    @apply bg-primary-500 text-white ml-auto;
+  }
+  
+  .chat-message-assistant {
+    @apply bg-gray-100 text-gray-900 mr-auto;
+  }
+  
+  .chat-input {
+    @apply w-full px-4 py-2 text-sm border border-gray-200 rounded-lg resize-none outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
+  }
+  
+  .widget-shadow {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  .typing-indicator {
+    @apply flex space-x-1;
+  }
+  
+  .typing-dot {
+    @apply w-2 h-2 bg-gray-400 rounded-full animate-typing;
+  }
+  
+  .typing-dot:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  
+  .typing-dot:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Custom animations for smooth interactions */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.message-enter {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* File upload styles */
+.file-upload-area {
+  @apply border-2 border-dashed border-gray-300 rounded-lg p-6 text-center transition-colors;
+}
+
+.file-upload-area:hover {
+  @apply border-primary-400 bg-primary-50;
+}
+
+.file-upload-area.drag-over {
+  @apply border-primary-500 bg-primary-100;
+}
+
+/* Widget positioning */
+.widget-bottom-right {
+  bottom: 20px;
+  right: 20px;
+}
+
+.widget-bottom-left {
+  bottom: 20px;
+  left: 20px;
+}
+
+.widget-top-right {
+  top: 20px;
+  right: 20px;
+}
+
+.widget-top-left {
+  top: 20px;
+  left: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .widget-bottom-right,
+  .widget-bottom-left {
+    bottom: 10px;
+    right: 10px;
+    left: 10px;
+  }
+  
+  .widget-top-right,
+  .widget-top-left {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+  }
+}
