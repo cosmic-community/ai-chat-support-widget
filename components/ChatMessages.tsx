@@ -1,6 +1,5 @@
 import type { ChatMessage } from '@/types'
 import TypingIndicator from '@/components/TypingIndicator'
-import { formatDistanceToNow } from 'date-fns'
 
 interface ChatMessagesProps {
   messages: ChatMessage[]
