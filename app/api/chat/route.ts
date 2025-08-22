@@ -5,7 +5,7 @@ import type { ChatMessage } from '@/types'
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { messages, fileUrl, maxTokens = 500 } = body
+    const { messages, fileUrl, maxTokens = 1000 } = body
 
     if (!messages || !Array.isArray(messages)) {
       return NextResponse.json(
@@ -14,8 +14,20 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Add system prompt for better customer service responses
-    const systemPrompt = "You are a helpful AI customer support assistant. Provide clear, friendly, and professional responses. If you're analyzing a file, explain what you found in an accessible way."
+    // Add enhanced system prompt for recipe-focused customer service
+    const systemPrompt = `You are a helpful AI cooking assistant and customer support agent for a recipe website. 
+    
+Your primary role is to:
+- Help users find and understand recipes
+- Provide cooking advice and techniques
+- Suggest recipe alternatives and substitutions
+- Answer questions about ingredients, preparation methods, and cooking times
+- Share information about our chefs and their specialties
+- Help users based on reviews and ratings from other cooks
+
+Use the knowledge base provided to give specific, accurate information about available recipes. When users ask about recipes, always reference the actual recipes in our database when possible.
+
+Be friendly, knowledgeable, and practical in your responses. If analyzing a file, explain what you found in an accessible way.`
     
     const formattedMessages = [
       { role: 'assistant' as const, content: systemPrompt },
@@ -25,7 +37,7 @@ export async function POST(request: NextRequest) {
       }))
     ]
 
-    // Configure streaming parameters
+    // Configure streaming parameters with knowledge base context
     const streamParams = {
       messages: formattedMessages,
       max_tokens: maxTokens,
@@ -33,7 +45,8 @@ export async function POST(request: NextRequest) {
       ...(fileUrl && { media_url: fileUrl })
     }
 
-    const stream = await streamAIResponse(streamParams)
+    // Stream response with knowledge base context included
+    const stream = await streamAIResponse(streamParams, true)
 
     // Create a ReadableStream for the response
     const readableStream = new ReadableStream({
@@ -88,9 +101,10 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   return NextResponse.json({ 
-    message: 'AI Chat API is running',
+    message: 'AI Recipe Chat API is running',
+    description: 'AI assistant with knowledge of recipes, authors, categories, and user reviews',
     endpoints: {
-      POST: '/api/chat - Stream chat responses',
+      POST: '/api/chat - Stream chat responses with recipe knowledge',
       'POST /api/upload': 'Upload files for analysis'
     }
   })

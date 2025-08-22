@@ -22,9 +22,9 @@ interface ChatWidgetProps {
 export default function ChatWidget({
   position = 'bottom-right',
   primaryColor = '#3B82F6',
-  greeting = "Hi! How can I help you today?",
-  title = "Chat Support",
-  placeholder = "Type your message...",
+  greeting = "Hi! I'm your cooking assistant. Ask me about our recipes, ingredients, cooking techniques, or any culinary questions you have!",
+  title = "Recipe Chat Support",
+  placeholder = "Ask about recipes, cooking tips, ingredients...",
   maxMessages = 50,
   allowFileUpload = true,
   customPrompt
@@ -114,7 +114,7 @@ export default function ChatWidget({
         body: JSON.stringify({
           messages: formattedMessages,
           fileUrl: currentFileUrl,
-          maxTokens: 500
+          maxTokens: 800
         }),
         signal: abortControllerRef.current.signal
       })
@@ -182,7 +182,7 @@ export default function ChatWidget({
       console.error('Chat error:', error)
       const errorMessage = createMessage(
         'assistant',
-        'Sorry, I encountered an error. Please try again.'
+        'Sorry, I encountered an error while accessing the recipe knowledge base. Please try again.'
       )
       const errorSession = {
         ...updatedSession,
@@ -238,7 +238,7 @@ export default function ChatWidget({
           onClick={toggleWidget}
           className="bg-primary-500 hover:bg-primary-600 text-white p-4 rounded-full shadow-lg transition-all duration-200 hover:scale-105"
           style={{ backgroundColor: primaryColor }}
-          aria-label="Open chat"
+          aria-label="Open recipe chat"
         >
           <MessageCircle size={24} />
         </button>
@@ -312,7 +312,7 @@ export default function ChatWidget({
                 <button
                   onClick={() => setShowFileUpload(!showFileUpload)}
                   className="text-gray-400 hover:text-gray-600 p-2"
-                  title="Attach file"
+                  title="Attach recipe photo or document"
                 >
                   <Paperclip size={18} />
                 </button>

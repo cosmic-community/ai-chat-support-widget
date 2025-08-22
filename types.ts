@@ -81,6 +81,85 @@ export interface ChatError {
   retryable?: boolean
 }
 
+// Cosmic CMS Content Types
+export interface CosmicObject {
+  id: string
+  title: string
+  slug: string
+  content?: string
+  metadata: Record<string, any>
+  status: string
+  created_at: string
+  modified_at: string
+  type: string
+}
+
+export interface Recipe extends CosmicObject {
+  metadata: {
+    recipe_name: string
+    description?: string
+    featured_image?: {
+      url: string
+      imgix_url: string
+    }
+    ingredients: string
+    instructions: string
+    prep_time?: number
+    cook_time?: number
+    servings?: number
+    difficulty_level?: {
+      key: string
+      value: string
+    }
+    category?: CosmicObject
+    author?: CosmicObject
+  }
+}
+
+export interface Category extends CosmicObject {
+  metadata: {
+    name: string
+    description?: string
+  }
+}
+
+export interface Author extends CosmicObject {
+  metadata: {
+    name: string
+    bio?: string
+    profile_photo?: {
+      url: string
+      imgix_url: string
+    }
+    specialty_cuisine?: string
+    instagram?: string | null
+    twitter?: string | null
+    youtube?: string | null
+    website?: string | null
+  }
+}
+
+export interface Comment extends CosmicObject {
+  metadata: {
+    recipe: Recipe
+    user_name: string
+    user_email: string
+    comment_text: string
+    rating?: number
+    status: {
+      key: string
+      value: string
+    }
+  }
+}
+
+export interface KnowledgeBase {
+  recipes: Recipe[]
+  categories: Category[]
+  authors: Author[]
+  comments: Comment[]
+}
+
 // Utility types
 export type OptionalExcept<T, K extends keyof T> = Partial<T> & Pick<T, K>
 export type RequiredConfig = OptionalExcept<WidgetConfig, 'bucketSlug'>
